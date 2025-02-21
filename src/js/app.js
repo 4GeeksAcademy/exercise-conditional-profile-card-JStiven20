@@ -27,15 +27,30 @@ function render(variables = {}) {
   // here we ask the logical questions to make decisions on how to build the html
   // if includeCover==false then we reset the cover code without the <img> tag to make the cover transparent.
   let cover = `<div class="cover"><img src="${variables.background}" /></div>`;
-  if (variables.includeCover == false) cover = "<div class='cover'></div>";
+  if (variables.includeCover == false) cover = "<div class='city'></div>";
+
+  let nameCondition =
+    typeof variables.name === "string" ? variables.name : "Nombre";
+
+  let lastNameCondition =
+    typeof variables.lastName === "string" ? variables.lastName : "Apellido";
+
+  let roleCondition =
+    typeof variables.role === "string" ? variables.role : "Role";
+
+  let countryCondition =
+    typeof variables.country === "string" ? variables.country : "Pais";
+
+  let cityCondition =
+    typeof variables.city === "string" ? variables.city : "Ciudad";
 
   // reset the website body with the new html output
   document.querySelector("#widget_content").innerHTML = `<div class="widget">
             ${cover}
           <img src="${variables.avatarURL}" class="photo" />
-          <h1>Lucy Boilett</h1>
-          <h2>Web Developer</h2>
-          <h3>Miami, USA</h3>
+          <h1>${nameCondition} ${lastNameCondition}</h1>
+          <h2>${roleCondition}</h2>
+          <h3>${countryCondition} ${cityCondition}</h3>
           <ul class="position-right">
             <li><a href="https://twitter.com/4geeksacademy"><i class="fab fa-twitter"></i></a></li>
             <li><a href="https://github.com/4geeksacademy"><i class="fab fa-github"></i></a></li>
