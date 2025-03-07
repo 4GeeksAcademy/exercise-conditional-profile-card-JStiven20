@@ -30,28 +30,52 @@ function render(variables = {}) {
   if (variables.includeCover == false) cover = "<div class='city'></div>";
 
   let nameCondition =
-    typeof variables.name === "string" ? variables.name : "Nombre";
+    typeof variables.name === "string" ? `${variables.name}` : "Nombre";
 
   let lastNameCondition =
-    typeof variables.lastName === "string" ? variables.lastName : "Apellido";
+    typeof variables.lastName === "string"
+      ? `${variables.lastName}`
+      : "Apellido";
 
   let roleCondition =
-    typeof variables.role === "string" ? variables.role : "Role";
+    typeof variables.role === "string" ? `${variables.role}` : "Role";
 
   let countryCondition =
-    typeof variables.country === "string" ? variables.country : "Pais";
+    typeof variables.country === "string" ? `${variables.country}` : "Pais";
 
   let cityCondition =
-    typeof variables.city === "string" ? variables.city : "Ciudad";
+    typeof variables.city === "string" ? `${variables.city}` : "Ciudad";
 
+  let twitterCondition =
+    typeof variables.twitter === "string" ? `${variables.twitter}` : "Twitter";
+
+  let githubCondition =
+    typeof variables.github === "string" ? `${variables.github}` : "Github";
+
+  let linkedinCondition =
+    typeof variables.linkedin === "string"
+      ? `${variables.linkedin}`
+      : "Linkedin";
+
+  let instagramCondition =
+    typeof variables.instagram === "string"
+      ? `${variables.instagram}`
+      : "Instagram";
+
+  let socialMediaPositionCondition =
+    variables.socialMediaPosition == "right"
+      ? "position-right"
+      : `${variables.socialMediaPosition}`;
   // reset the website body with the new html output
-  document.querySelector("#widget_content").innerHTML = `<div class="widget">
+  document.querySelector(
+    "#widget_content"
+  ).innerHTML = `<div class="widget" style="width:${variables.width}px; height:${variables.height}px">
             ${cover}
           <img src="${variables.avatarURL}" class="photo" />
           <h1>${nameCondition} ${lastNameCondition}</h1>
           <h2>${roleCondition}</h2>
           <h3>${countryCondition} ${cityCondition}</h3>
-          <ul class="position-right">
+          <ul class="${socialMediaPositionCondition}">
             <li><a href="https://twitter.com/4geeksacademy"><i class="fab fa-twitter"></i></a></li>
             <li><a href="https://github.com/4geeksacademy"><i class="fab fa-github"></i></a></li>
             <li><a href="https://linkedin.com/school/4geeksacademy"><i class="fab fa-linkedin"></i></a></li>
@@ -65,6 +89,15 @@ function render(variables = {}) {
  * Don't change any of the lines below, here is where we do the logic for the dropdowns
  */
 window.onload = function() {
+  const duplicateCreator = () => {
+    let designContainer = document.getElementById("widget_content").innerHTML;
+    let container = document.createElement("div");
+    container.innerHTML = designContainer;
+    document.querySelector("#widget_content").appendChild(container);
+  };
+
+  document.getElementById("btn").addEventListener("click", duplicateCreator);
+
   window.variables = {
     // if includeCover is true the algorithm should show the cover image
     includeCover: true,
@@ -90,7 +123,7 @@ window.onload = function() {
   document.querySelectorAll(".picker").forEach(function(elm) {
     elm.addEventListener("change", function(e) {
       // <- add a listener to every input
-      const attribute = e.target.getAttribute("for"); // when any input changes, collect the value
+      const attribute = e.target.getAttribute("for");
       let values = {};
       values[attribute] =
         this.value == "" || this.value == "null"
@@ -100,7 +133,7 @@ window.onload = function() {
           : this.value == "false"
           ? false
           : this.value;
-      render(Object.assign(window.variables, values)); // render again the card with new values
+      render(Object.assign(window.variables, values));
     });
   });
 };
